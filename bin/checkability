@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/checkability'
+
+puts '-----------------'
+puts ''
+puts 'Gem provide acts_as_checkable addon to active record models'
+puts "Version: #{Checkability::VERSION}"
+puts ''
+puts '-----------------'
