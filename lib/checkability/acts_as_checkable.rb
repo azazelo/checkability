@@ -1,9 +1,11 @@
-# Checks if postcode exists in Storage
-#
-
-
 module Checkability
+  # Adding class and instance methods
+  #
   module ActsAsCheckable
+    def self.included(base)
+      base.extend ClassMethods
+    end
+
     extend ActiveSupport::Concern
 
     class_methods do
@@ -11,13 +13,13 @@ module Checkability
         if !options.is_a?(Hash) && !options.empty?
           raise ArgumentError, "Hash expected, got #{options.class.name}"
         end
-        
+
         class_attribute :checkable_conf
-        
+
         self.checkable_conf = options
       end
     end
-    
+
     attr_accessor :allowed, :messages
     def setup
       self.allowed = nil
@@ -27,24 +29,15 @@ module Checkability
     def perform
       setup
       self.allowed = _check
-      self.messages << "#{self.class.name} '#{value}' is #{_allowness}. "
+      messages << "#{self.class.name} '#{value}' is #{_allowness}. "
     end
 
     def _allowness
-      self.allowed ? 'ALLOWED' : 'NOT allowed'
+      allowed ? 'ALLOWED' : 'NOT allowed'
     end
 
     def _check
-      Checkability::Checkable.new(self)
-      .check(self.checkable_conf)
-#      .check(
-#        proc { |a, b, c| a && ( b || c ) },
-#        [ 
-#          Checkability::Validator.new(validator_conf),
-#          Checkability::StorageChecker.new(storage_conf), 
-#          Checkability::ExternalApiChecker.new(external_api_checker_conf)
-#        ]
-#      )
+      Checkability::Checkable.new(self).check(checkable_conf)
     end
   end
 end

@@ -1,10 +1,10 @@
-# Checks if postcode exists in Storage
-#
 module Checkability
+  # Checks if postcode comply with regex
+  #
   class Validator
     attr_reader :format
 
-    def initialize(conf={})
+    def initialize(conf = {})
       @format = conf[:format]
     end
 
@@ -13,9 +13,9 @@ module Checkability
       checkable.messages << message
       result
     end
-    
+
     def _result_and_message(checkable)
-      if (checkable.value.gsub(' ','') =~ format[:regex]).nil?
+      if (checkable.value.delete(' ') =~ format[:regex]).nil?
         [false, "Value is not comply with format of #{format[:name]}."]
       else
         [true, "Value comply with format of #{format[:name]}."]

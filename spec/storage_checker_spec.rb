@@ -10,7 +10,6 @@ RSpec.describe Checkability::StorageChecker do
     conf = { storage_class: Struct.new(:value) }
     @object = @storage_checker = Checkability::StorageChecker.new(conf)
   end
-  
+
   it_behaves_like 'Checker', Checkability::StorageChecker
 end
-
