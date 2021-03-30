@@ -1,8 +1,16 @@
 # Checkability
-Short description and motivation.
+
+Add to application checkers functionality  
+  
+Checker could be any object of Ruby 
+which respond to method check_value  
+with return of true|false
 
 ## Usage
 How to use my plugin.
+
+inside of any ruby class include Checkablilty
+next 
 
 ## Installation
 Add this line to your application's Gemfile:
