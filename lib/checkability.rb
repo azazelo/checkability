@@ -1,6 +1,6 @@
 require "checkability/version"
-require "checkability/railtie"
-
-module Checkability
-  # Your code goes here...
-end
+require "checkability/checkable"
+require "checkability/storage_checker"
+require "checkability/external_api_checker"
+require "checkability/external_api_connector"
+require "checkability/validator"

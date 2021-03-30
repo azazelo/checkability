@@ -5,11 +5,12 @@
 require_relative '../lib/checkability'
 require 'support/checker_interface_spec'
 
-RSpec.describe StorageChecker do
+RSpec.describe Checkability::ExternalApiChecker do
 #  before(:each) do
-#    @object = @storage_checker = StorageChecker.new
+#    conf = { storage_class: Struct.new(:value) }
+#    @object = @storage_checker = StorageChecker.new(conf)
 #  end
   
-  it_behaves_like 'Checker', StorageChecker
+  it_behaves_like 'Checker', Checkability::ExternalApiChecker
 end
 
