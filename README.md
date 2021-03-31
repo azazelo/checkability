@@ -46,6 +46,8 @@ class ChecksController < ApplicationController
   end
 end
 ```
+for more detailed example see application   
+in https://github.com/azazelo/postcode_checker
 
 ## Installation
 Add this line to your application's Gemfile:
