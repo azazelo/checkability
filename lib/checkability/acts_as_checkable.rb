@@ -21,15 +21,18 @@ module Checkability
     end
 
     attr_accessor :allowed, :messages
-    def setup
+
+    def perform_check
+      _setup
+      self.allowed = _check
+      messages << "'#{value}' is #{_allowness}. "
+    end
+    
+    private
+
+    def _setup
       self.allowed = nil
       self.messages = []
-    end
-
-    def perform
-      setup
-      self.allowed = _check
-      messages << "#{self.class.name} '#{value}' is #{_allowness}. "
     end
 
     def _allowness

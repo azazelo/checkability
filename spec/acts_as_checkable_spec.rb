@@ -13,11 +13,21 @@ RSpec.describe Checkability::ActsAsCheckable do
   #  end
 
   describe 'respond to method' do
-    it 'calls perform method' do
+    it 'calls perform_check method' do
       record = instance_double('Record')
-      allow(record).to receive(:perform)
-      record.perform
+      allow(record).to receive(:perform_check)
+      record.perform_check
     end
+    
+#  let!(:postcode) { Postcode.create(value: 'S24 1AA') }
+#  it '#perform', :aggregate_failures do
+#    check.perform
+#    expect(check).to receive
+#    expect(check.messages).to be_a(Array)
+#    expect(check.messages).to include(/ALLOWED/)
+#  end
+
+    
     it 'calls acts_as_checkable method' do
       klass = class_double('Record')
       allow(klass).to receive(:acts_as_checkable)

@@ -16,12 +16,21 @@ module Checkability
     # checkers is an array of checker objects
     #   e.g. [storage_checker, external_api_checker]
     def check(conf)
-      conf[:algoritm].call(
+      conf[:strategy].call(
         conf[:checkers].map do |checker_name, checker_conf|
-          k = Checkability.const_get(checker_name.to_s.camelize)
-          k.new(checker_conf).check_value(checkable)
+          _checker_to_check_value(checker_name, checker_conf)
         end
       )
+    end
+    
+    private
+    
+    def _checker_to_check_value(checker_name, checker_conf)
+      k = ("Checkability::#{checker_name.to_s.camelize}").constantize
+      k.new(checker_conf).check_value(checkable)
+    rescue NameError => e
+      checkable.messages << "#{e}: #{checker_name}."
+      false
     end
   end
 end
