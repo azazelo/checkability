@@ -27,7 +27,7 @@ module Checkability
       self.allowed = _check
       messages << "'#{value}' is #{_allowness}. "
     end
-    
+
     private
 
     def _setup
