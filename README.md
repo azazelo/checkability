@@ -18,7 +18,7 @@ end
 ```
 where uk_postcode_checkers is method which returns hash with configurations  
 for checkers, for example see:  
-https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers.rb
+https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers.rb  
 then in your controller:  
 ```
 class ChecksController < ApplicationController
