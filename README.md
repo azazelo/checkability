@@ -10,17 +10,17 @@ with return of true|false
 How to use my plugin.
 
 inside of any rails model do
-```
+```ruby
 class SomeModel
   acts_as_checkable strategy: proc { |a, b, c| a && (b || c) },
                     checkers: uk_postcode_checkers
 end
 ```
-where uk_postcode_checkers is method which returns hash with configurations  
+where `uk_postcode_checkers` is method which returns hash with configurations  
 for checkers, for example see:  
 https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers.rb  
 then in your controller:  
-```
+```ruby
 class ChecksController < ApplicationController
   def checking
     @check = Check.new
