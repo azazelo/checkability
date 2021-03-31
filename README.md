@@ -16,12 +16,7 @@ class SomeModel
                     checkers: uk_postcode_checkers
 end
 ```
-<<<<<<< HEAD
 where `uk_postcode_checkers` is method which returns hash with configurations  
-=======
-where --uk_postcode_checkers-- is method which returns hash with configurations  
->>>>>>> d90939279a3144d68c24ddad3515ddbc9f428372
-for checkers, for example see:  
 https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers.rb  
 then in your controller:  
 ```ruby
