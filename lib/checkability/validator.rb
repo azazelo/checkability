@@ -14,6 +14,8 @@ module Checkability
       result
     end
 
+    private
+
     def _result_and_message(checkable)
       if (checkable.value.delete(' ') =~ format[:regex]).nil?
         [false, "Value is NOT COMPLY with format of #{format[:name]}."]

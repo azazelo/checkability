@@ -9,7 +9,6 @@ module Checkability
   class ExternalApiChecker
     attr_reader :path, :path_suffix, :check_method, :connection, :http_verb,
                 :failure_message, :success_message
-                
 
     def initialize(conf = {})
       @path = conf[:path]
@@ -22,7 +21,7 @@ module Checkability
     end
 
     def check_value(checkable)
-      @resp = connection.connect.send(http_verb, 
+      @resp = connection.connect.send(http_verb,
                                       checkable.value.delete(' ') + path_suffix)
       result, message = _result_and_message
       checkable.messages << message
@@ -42,8 +41,8 @@ module Checkability
     def _result_and_message
       return [false, _message(@resp.status)] unless @resp.status == 200
 
-      binding.pry
-      return [true, _message(success_message)] if check_method.call(_parsed(@resp))
+      return [true, _message(success_message)] if check_method
+                                                  .call(_parsed(@resp))
 
       [false, _message(failure_message)]
     rescue StandardError => e
