@@ -129,3 +129,12 @@ end
 class Check < ActiveRecord::Base
   acts_as_checkable
 end
+
+def validator_conf
+  { name: :validator,
+    format: {
+      name: 'UK Postcodes',
+      regex: /([a-z]{1,2}[0-9]{1,2})([a-z]{1,2})?(\W)?([0-9]{1,2}[a-z]{2})?/i
+    },
+    stop_process_if_failure: true }
+end
