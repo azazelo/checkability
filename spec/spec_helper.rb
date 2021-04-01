@@ -127,5 +127,5 @@ def teardown_db
 end
 
 class Check < ActiveRecord::Base
-  acts_as_checkable 
+  acts_as_checkable
 end

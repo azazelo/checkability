@@ -14,20 +14,18 @@ RSpec.describe Checkability::Validator, :aggregate_failure do
   end
 
   it_behaves_like 'Checker', Checkability::Validator
-  
+
   let(:validator_conf) do
-    {
-      name: :validator,
+    { name: :validator,
       format: {
         name: 'UK Postcodes',
         regex: /([a-z]{1,2}[0-9]{1,2})([a-z]{1,2})?(\W)?([0-9]{1,2}[a-z]{2})?/i
       },
-      stop_process_if_failure: true
-    }
+      stop_process_if_failure: true }
   end
-  
+
   let(:check_valid_postcode) { Check.new(value: 'SH241AA') }
-  let(:validator) {Checkability::Validator.new(validator_conf)}
+  let(:validator) { Checkability::Validator.new(validator_conf) }
   context 'when input' do
     specify 'valid postcode' do
       check_valid_postcode.messages = []
@@ -35,5 +33,4 @@ RSpec.describe Checkability::Validator, :aggregate_failure do
       expect(check_valid_postcode.messages).to include(/COMPLY/)
     end
   end
-  
 end
