@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checkability
   # Checks if postcode comply with regex
   #
@@ -18,9 +20,9 @@ module Checkability
 
     def _result_and_message(checkable)
       if (checkable.value.delete(' ') =~ format[:regex]).nil?
-        [false, "Value is NOT COMPLY with format of #{format[:name]}."]
+        [false, "false::Value is NOT COMPLY with format of #{format[:name]}."]
       else
-        [true, "Value is COMPLY with format of #{format[:name]}."]
+        [true, "true::Value is COMPLY with format of #{format[:name]}."]
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checkability
   # Implements check method to Iterate on chechers
   # Possible to implemet as Iterator in future
@@ -9,11 +11,11 @@ module Checkability
       @checkable = checkable
     end
 
-    # sentence is a proc
+    # strategy is a proc
     #   like { |a,b,c| a && ( b || c ) }
     #   where a,b,c are checkers
     #   and each should return true|false
-    # checkers is an array of checker objects
+    # checker_confs is an array of checker_conf hashes
     #   e.g. [storage_checker, external_api_checker]
     def check(opts = {})
       results = []
@@ -31,7 +33,7 @@ module Checkability
       k = "Checkability::#{checker_conf[:name].to_s.camelize}".constantize
       k.new(checker_conf).check_value(checkable)
     rescue NameError => e
-      checkable.messages << "#{e}: #{checker_conf[:name]}."
+      checkable.messages << "false::#{e}: #{checker_conf[:name]}."
       false
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checkability
   # Adding class and instance methods
   #
@@ -10,9 +12,7 @@ module Checkability
 
     class_methods do
       def acts_as_checkable(options = {})
-        if !options.is_a?(Hash) && !options.empty?
-          raise ArgumentError, "Hash expected, got #{options.class.name}"
-        end
+        raise ArgumentError, "Hash expected, got #{options.class.name}" if !options.is_a?(Hash) && !options.empty?
 
         class_attribute :checkable_conf
 
@@ -25,7 +25,7 @@ module Checkability
     def perform_check
       _setup
       self.allowed = _check
-      messages << "'#{value}' is #{_allowness}. "
+      messages << "#{allowed}::'#{value}' is #{_allowness}. "
     end
 
     private

@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'lib/checkability/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'checkability'
   spec.version     = Checkability::VERSION
+  spec.required_ruby_version = '>= 2.6.2'
   spec.authors     = ['Andrey Eremeev']
   spec.email       = ['andrey.eremeyev@gmail.com']
   spec.homepage    = 'https://github.com/azazelo/checkability'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Checkability
   # Checks if postcode exists in Storage
   #
@@ -11,7 +13,8 @@ module Checkability
     def check_value(checkable)
       value = checkable.value.upcase
       result = _present_in_storage(value)
-      checkable.messages << (result ? _message('Found') : _message('Not found'))
+      checkable.messages << (
+        result ? _message('Found', result) : _message('Not found', result))
       result
     end
 
@@ -22,8 +25,8 @@ module Checkability
                    .present?
     end
 
-    def _message(str)
-      "Allowed #{storage_class}s list: #{str}."
+    def _message(str, res)
+      "#{res}::Allowed #{storage_class}s list: #{str}."
     end
   end
 end

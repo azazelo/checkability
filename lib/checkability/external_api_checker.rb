@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faraday'
 require 'net/http'
 require 'net/https'
@@ -31,8 +33,8 @@ module Checkability
 
     private
 
-    def _message(str)
-      "#{path}: #{str}"
+    def _message(str, res)
+      "#{res}::#{path}: #{str}"
     end
 
     def _parsed(resp)
@@ -40,14 +42,14 @@ module Checkability
     end
 
     def _result_and_message
-      return [false, _message(@resp.status)] unless @resp.status == 200
+      return [false, _message(@resp.status, false)] unless @resp.status == 200
 
-      return [true, _message(success_message)] if check_method
-                                                  .call(_parsed(@resp))
+      return [true, _message(success_message, true)] if check_method
+                                                        .call(_parsed(@resp))
 
-      [false, _message(failure_message)]
+      [false, _message(failure_message, false)]
     rescue StandardError => e
-      [false, _message(e)]
+      [false, _message(e, false)]
     end
   end
 end

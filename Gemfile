@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Specify your gem's dependencies in checkability.gemspec.
 
-gem 'activerecord', require: 'active_record'
-gem 'activesupport', require: 'active_support'
+gem 'activerecord', '~> 6.1', require: 'active_record'
+gem 'activesupport', '~> 6.1', require: 'active_support'
 
 # Development dependencies
 group :development do
