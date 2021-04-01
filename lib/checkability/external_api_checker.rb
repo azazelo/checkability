@@ -21,8 +21,9 @@ module Checkability
     end
 
     def check_value(checkable)
-      @resp = connection.connect.send(http_verb,
-                                      checkable.value.delete(' ') + path_suffix)
+      @resp = connection
+              .connect
+              .send(http_verb, "#{checkable.value.delete(' ')}#{path_suffix}")
       result, message = _result_and_message
       checkable.messages << message
       result

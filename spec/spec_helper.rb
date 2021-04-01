@@ -129,6 +129,8 @@ end
 class Check < ActiveRecord::Base
   acts_as_checkable
 end
+class Postcode < ActiveRecord::Base
+end
 
 def validator_conf
   { name: :validator,
@@ -137,4 +139,28 @@ def validator_conf
       regex: /([a-z]{1,2}[0-9]{1,2})([a-z]{1,2})?(\W)?([0-9]{1,2}[a-z]{2})?/i
     },
     stop_process_if_failure: true }
+end
+
+def api_validate_conf
+  { name: :external_api_checker,
+    path: 'http://api.postcodes.io/postcodes/',
+    http_verb: :get,
+    path_suffix: '/validate',
+    check_method: proc { |result_hash|
+      result_hash['result'] == true
+    },
+    stop_process_if_failure: true,
+    success_message: 'Postcode IS VALID.',
+    failure_message: 'Postcode IS NOT VALID.' }
+end
+
+def api_inside_district_conf
+  { name: :external_api_checker,
+    path: 'http://api.postcodes.io/postcodes/',
+    check_method: proc { |result_hash|
+      %w[Southwark Lambeth].include?(result_hash['result']['admin_district'])
+    },
+    stop_process_if_success: true,
+    success_message: 'Postcode IS INSIDE allowed areas.',
+    failure_message: 'Postcode IS NOT INSIDE of allowed areas.' }
 end
