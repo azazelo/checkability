@@ -73,3 +73,7 @@ Contribution directions go here.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Future works
+
+- [ ] Use ChainOfResponsibility pattern to simplify call of checkers
