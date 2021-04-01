@@ -102,7 +102,12 @@ ActiveRecord::Schema.verbose = false
 
 def setup_db
   ActiveRecord::Schema.define(version: 1) do
-    create_table :records do |t|
+    create_table :postcodes do |t|
+      t.string :value
+
+      timestamps t
+    end
+    create_table :checks do |t|
       t.string :value
 
       timestamps t
@@ -121,7 +126,6 @@ def teardown_db
   end
 end
 
-class Record < ActiveRecord::Base
-  #  include Checkability::ActsAsCheckable
-  acts_as_checkable
+class Check < ActiveRecord::Base
+  acts_as_checkable 
 end

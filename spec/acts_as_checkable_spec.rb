@@ -3,7 +3,6 @@
 # and open the template in the editor.
 
 require_relative '../lib/checkability'
-require 'pry'
 
 RSpec.describe Checkability::ActsAsCheckable do
   setup_db
@@ -20,4 +19,5 @@ RSpec.describe Checkability::ActsAsCheckable do
       klass.acts_as_checkable
     end
   end
+  teardown_db
 end
