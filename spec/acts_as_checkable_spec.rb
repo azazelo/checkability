@@ -8,18 +8,28 @@ require_relative '../lib/checkability'
 
 RSpec.describe Checkability::ActsAsCheckable do
   setup_db
-  describe 'respond to method' do
-    it 'calls perform_check method' do
-      record = instance_double('Record')
-      allow(record).to receive(:perform_check)
-      record.perform_check
+  describe 'respond to' do
+    it '#perform_check' do
+      check_double = instance_double('Check')
+      allow(check_double).to receive(:perform_check)
+      check_double.perform_check
     end
 
-    it 'calls acts_as_checkable method' do
-      klass = class_double('Record')
+    it '.acts_as_checkable' do
+      klass = class_double('Check')
       allow(klass).to receive(:acts_as_checkable)
       klass.acts_as_checkable
     end
+
+    #    describe 'have attributes' do
+    #
+    #      it '@messages' do
+    #        record = instance_double('Record')
+    #        klass = class_double('Record')
+    #        allow(klass).to receive(:acts_as_checkable)
+    #        klass.acts_as_checkable
+    #      end
+    #    end
   end
   teardown_db
 end

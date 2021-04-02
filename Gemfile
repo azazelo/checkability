@@ -12,6 +12,10 @@ gem 'activesupport', '~> 6.1', require: 'active_support'
 group :development do
   gem 'sqlite3'
 end
+
+group :test do
+  gem 'simplecov'
+end
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 

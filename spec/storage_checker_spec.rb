@@ -18,16 +18,16 @@ RSpec.describe klass do
     klass.new(storage_checker_conf)
   end
   let(:check_existing_postcode) { Check.new(value: 'SH241AA') }
-  context 'when input' do
-    specify 'existing postcode' do
+  context 'when input a postcode which is EXISTS in local storage' do
+    specify 'respond with `true` and message `Found`' do
       check_existing_postcode.messages = []
       expect(storage_checker.check_value(check_existing_postcode)).to eq(true)
       expect(check_existing_postcode.messages).to include(/Found/)
     end
   end
   let(:check_nonexisting_postcode) { Check.new(value: 'XX11XX') }
-  context 'when input' do
-    specify 'non existing postcode' do
+  context 'when input a postcode which is NOT EXISTS in local storage' do
+    specify 'respond with `false` and message `Not found`' do
       check_nonexisting_postcode.messages = []
       expect(storage_checker.check_value(check_nonexisting_postcode)).to eq(false)
       expect(check_nonexisting_postcode.messages).to include(/Not found/)

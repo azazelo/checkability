@@ -24,11 +24,19 @@ module Checkability
 
     def perform_check
       _setup
-      self.allowed = _check
-      messages << "#{allowed}::'#{value}' is #{_allowness}. "
+      self.allowed = Checkability::Checkable.new(self).check(checkable_conf)
+      messages << "#{allowed}::'#{_value}' is #{_allowness}. "
     end
 
     private
+
+    def _value
+      send(_attr_name)
+    end
+
+    def _attr_name
+      checkable_conf[:attr_name] || :value
+    end
 
     def _setup
       self.allowed = nil
@@ -37,10 +45,6 @@ module Checkability
 
     def _allowness
       allowed ? 'ALLOWED' : 'NOT allowed'
-    end
-
-    def _check
-      Checkability::Checkable.new(self).check(checkable_conf)
     end
   end
 end

@@ -9,6 +9,7 @@ module Checkability
 
     def initialize(checkable)
       @checkable = checkable
+      @checkable.messages = []
     end
 
     # strategy is a proc
@@ -16,18 +17,25 @@ module Checkability
     #   where a,b,c are checkers
     #   and each should return true|false
     # checker_confs is an array of checker_conf hashes
-    #   e.g. [storage_checker, external_api_checker]
+    #   e.g. [storage_checker_conf, external_api_checker_conf]
     def check(opts = {})
       results = []
       opts[:checker_confs].each do |checker_conf|
         results << (res = _checker_to_check_value(checker_conf))
-        break if res && checker_conf[:stop_process_if_success]
-        break if res == false && checker_conf[:stop_process_if_failure]
+        break if _stop_process(checker_conf, res)
       end
-      opts[:strategy].call(results)
+      opts[:strategy].call(*results)
     end
 
     private
+
+    # #TODO change key to
+    # stop_process_on: [:failure|:success]
+
+    def _stop_process(checker_conf, res)
+      (res && checker_conf[:stop_process_if_success]) ||
+        (res == false && checker_conf[:stop_process_if_failure])
+    end
 
     def _checker_to_check_value(checker_conf)
       k = "Checkability::#{checker_conf[:name].to_s.camelize}".constantize
