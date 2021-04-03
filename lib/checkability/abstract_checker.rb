@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'handler'
+require_relative 'checker'
 
-module ChainOfResp
+module Checkability
   # @abstract
-  class AbstractHandler < ChainOfResp::Handler
+  class AbstractChecker < Checker
     # @return [Handler]
     attr_reader :stop_process_on_failure, :stop_process_on_success
-    attr_accessor :handler, :result
+    attr_accessor :handler
 
     def initialize(opts = {})
       @stop_process_on_failure = opts[:stop_process_on_failure] || false
@@ -37,6 +37,20 @@ module ChainOfResp
       return false if !check && stop_process_on_failure
 
       handler&.handle(request)
+    end
+    
+    def check_value(checkable)
+      result, message = result_and_message(checkable)
+      checkable.messages << message
+      result
+    end
+    
+    def result_and_message(checkable)
+      [false, message("Empty Message", false)]
+    end
+    
+    def message(str, res)
+      "#{res}::#{str}"
     end
   end
 end

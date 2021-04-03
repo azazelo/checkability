@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module ChainOfResp
+module Checkability
   # @abstract
-  class Handler
+  class Checker
     # @abstract
     #
     # @param [Handler] handler

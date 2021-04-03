@@ -12,7 +12,8 @@ module Checkability
 
     class_methods do
       def acts_as_checkable(options = {})
-        raise ArgumentError, "Hash expected, got #{options.class.name}" if !options.is_a?(Hash) && !options.empty?
+        raise ArgumentError, 
+          "Hash expected, got #{options.class.name}" if !options.is_a?(Hash) && !options.empty?
 
         class_attribute :checkable_conf
 

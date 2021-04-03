@@ -7,11 +7,12 @@ require 'json'
 
 # frozen_string_literal: true
 
-require_relative 'chain_of_resp/abstract_handler'
 module Checkability
   # Checks if postcode exists in external API
   #
-  class ExternalApiChecker < ChainOfResp::AbstractHandler
+  class ExternalApiChecker < AbstractChecker
+    
+    
     attr_reader :path, :path_suffix, :check_method, :connection, :http_verb,
                 :failure_message, :success_message
 
@@ -25,34 +26,36 @@ module Checkability
       @connection = Checkability::ExternalApiConnector.new(conf)
     end
 
-    def check_value(checkable)
-      @resp = connection
+#    def check_value(checkable)
+#      result, message = _result_and_message(checkable)
+#      checkable.messages << message
+#      result
+#    end
+
+    def result_and_message(checkable)
+      resp = connection
               .connect
               .send(http_verb, "#{checkable.value.delete(' ')}#{path_suffix}")
-      result, message = _result_and_message
-      checkable.messages << message
-      result
+      return [false, message(resp.status, false)] unless resp.status == 200
+
+      return [true, message(success_message, true)] if check_method
+                                                        .call(_parsed(resp))
+
+      [false, message(failure_message, false)]
+    rescue StandardError => e
+      [false, message(e, false)]
     end
 
     private
 
-    def _message(str, res)
-      "#{res}::#{path}: #{str}"
+    def message(str, res)
+      str = "#{path}: #{str}"
+      super(str, res)
     end
 
     def _parsed(resp)
       JSON.parse(resp.body)
     end
 
-    def _result_and_message
-      return [false, _message(@resp.status, false)] unless @resp.status == 200
-
-      return [true, _message(success_message, true)] if check_method
-                                                        .call(_parsed(@resp))
-
-      [false, _message(failure_message, false)]
-    rescue StandardError => e
-      [false, _message(e, false)]
-    end
   end
 end

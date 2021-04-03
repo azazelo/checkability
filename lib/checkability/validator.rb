@@ -3,27 +3,22 @@
 module Checkability
   # Checks if postcode comply with regex
   #
-  class Validator < ChainOfResp::AbstractHandler
+  class Validator < AbstractChecker
     attr_reader :format
 
     def post_initialize(conf = {})
       @format = conf[:format]
     end
 
-    def check_value(checkable)
-      result, message = _result_and_message(checkable)
-      checkable.messages << message
-      result
-    end
-
-    private
-
-    def _result_and_message(checkable)
-      if (checkable.value.delete(' ') =~ format[:regex]).nil?
-        [false, "false::Value is NOT COMPLY with format of #{format[:name]}."]
+    def result_and_message(checkable)
+      position = checkable.value.delete(' ') =~ format[:regex]
+      result = !position.nil?
+      if result
+        [result, message("Value is COMPLY with format of #{format[:name]}.", result)]
       else
-        [true, "true::Value is COMPLY with format of #{format[:name]}."]
+        [result, message("Value is NOT COMPLY with format of #{format[:name]}.", result)]
       end
     end
+    
   end
 end

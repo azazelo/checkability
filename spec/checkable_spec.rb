@@ -15,6 +15,7 @@ RSpec.describe klass, :aggregate_failure do
 
   context "when #check with @value = 'SE17QD'" do
     it 'valid by Postcode regex' do
+      require 'pry'; binding.pry
       expect(checkable.check(validator_conf)).to be(true)
     end
     it 'can not found it in storage' do
