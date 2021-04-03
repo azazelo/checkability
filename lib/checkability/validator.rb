@@ -10,15 +10,10 @@ module Checkability
       @format = conf[:format]
     end
 
-    def result_and_message(checkable)
-      position = checkable.value.delete(' ') =~ format[:regex]
-      result = !position.nil?
-      if result
-        [result, message("Value is COMPLY with format of #{format[:name]}.", result)]
-      else
-        [result, message("Value is NOT COMPLY with format of #{format[:name]}.", result)]
-      end
+    private
+
+    def _result(checkable)
+      !(checkable.value.delete(' ') =~ format[:regex]).nil?
     end
-    
   end
 end

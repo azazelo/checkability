@@ -12,8 +12,10 @@ module Checkability
 
     class_methods do
       def acts_as_checkable(options = {})
-        raise ArgumentError, 
-          "Hash expected, got #{options.class.name}" if !options.is_a?(Hash) && !options.empty?
+        if !options.is_a?(Hash) && !options.empty?
+          raise ArgumentError,
+                "Hash expected, got #{options.class.name}"
+        end
 
         class_attribute :checkable_conf
 
@@ -24,7 +26,8 @@ module Checkability
     attr_accessor :allowed, :messages
 
     def perform_check
-      _setup
+      self.allowed = nil
+      self.messages = []
       self.allowed = Checkability::Checkable.new(self).check(checkable_conf)
       messages << "#{allowed}::'#{_value}' is #{_allowness}. "
     end
@@ -39,10 +42,7 @@ module Checkability
       checkable_conf[:attr_name] || :value
     end
 
-    def _setup
-      self.allowed = nil
-      self.messages = []
-    end
+    def _setup; end
 
     def _allowness
       allowed ? 'ALLOWED' : 'NOT allowed'

@@ -15,17 +15,9 @@ RSpec.describe klass, :aggregate_failure do
 
   context "when #check with @value = 'SE17QD'" do
     it 'valid by Postcode regex' do
-      require 'pry'; binding.pry
-      expect(checkable.check(validator_conf)).to be(true)
-    end
-    it 'can not found it in storage' do
-      expect(checkable.check(storage_conf)).to be(false)
-    end
-    it 'can found it in external API' do
-      expect(checkable.check(api_finder_conf)).to be(true)
-    end
-    it 'valid in external API' do
-      expect(checkable.check(api_validator_conf)).to be(true)
+      #      expect(checkable.check( { first_handler: 'Validator',
+      #            handler_confs: { 'Validator' => validator_conf } } ) ).to be(true)
+      expect(checkable.check(uk_postcode_checkers_conf)).to be(true)
     end
   end
 end
