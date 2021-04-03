@@ -1,2 +1,6 @@
 Style/DoubleNegation:
   EnforcedStyle: allowed_in_returns
+
+Lint/MissingSuper:
+  Exclude:
+    - 'lib/**/*'

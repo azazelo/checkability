@@ -9,5 +9,7 @@ require_relative 'checkability/external_api_checker'
 require_relative 'checkability/external_api_connector'
 require_relative 'checkability/validator'
 require_relative 'checkability/acts_as_checkable'
+require_relative 'checkability/checker'
+require_relative 'checkability/abstract_checker'
 
 ActiveRecord::Base.include Checkability::ActsAsCheckable

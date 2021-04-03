@@ -14,7 +14,7 @@ RSpec.describe Checkability::ExternalApiChecker do
   it_behaves_like 'Checker', Checkability::ExternalApiChecker
 
   let(:external_api_checker) do
-    Checkability::ExternalApiChecker.new(api_validate_conf)
+    Checkability::ExternalApiChecker.new(api_validator_conf)
   end
   let(:check_true_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a REAL postcode' do
@@ -40,14 +40,17 @@ RSpec.describe Checkability::ExternalApiChecker do
 
   it_behaves_like 'Checker', Checkability::ExternalApiChecker
 
-  let(:external_api_checker) do
-    Checkability::ExternalApiChecker.new(api_inside_district_conf)
+  #  let(:api_validator) do
+  #    Checkability::ExternalApiChecker.new(api_validator_conf)
+  #  end
+  let(:api_finder) do
+    Checkability::ExternalApiChecker.new(api_finder_conf)
   end
   let(:check_included_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a INCLUDED postcode' do
     it 'respond with success' do
       check_included_postcode.messages = []
-      expect(external_api_checker.check_value(check_included_postcode))
+      expect(api_finder.check_value(check_included_postcode))
         .to be_truthy
       expect(check_included_postcode.messages).to include(/IS INSIDE/)
     end
@@ -56,7 +59,7 @@ RSpec.describe Checkability::ExternalApiChecker do
   context 'when input a EXCLUDED postcode' do
     it 'respond with failure' do
       check_excluded_postcode.messages = []
-      expect(external_api_checker.check_value(check_excluded_postcode))
+      expect(api_finder.check_value(check_excluded_postcode))
         .to eq(false)
       expect(check_excluded_postcode.messages).to include(/IS NOT INSIDE/)
     end

@@ -12,37 +12,44 @@ module Checkability
       @checkable.messages = []
     end
 
-    # strategy is a proc
-    #   like { |a,b,c| a && ( b || c ) }
-    #   where a,b,c are checkers
-    #   and each should return true|false
-    # checker_confs is an array of checker_conf hashes
-    #   e.g. [storage_checker_conf, external_api_checker_conf]
-    def check(opts = {})
-      results = []
-      opts[:checker_confs].each do |checker_conf|
-        results << (res = _checker_to_check_value(checker_conf))
-        break if _stop_process(checker_conf, res)
-      end
-      opts[:strategy].call(*results)
+    # As in result handlers should behave like this:
+    # validator    .set_next(storage)
+    # storage      .set_next(api_validator)
+    # api_validator.set_next(api_finder)
+    # api_validator.set_next(nil)
+    #
+    # validator.handle(request)
+    #
+    def check(opts)
+      handler_confs = opts[:handler_confs]
+      first_handler_name = opts[:first_handler]
+      first_handler = _handlers(handler_confs)[first_handler_name]
+
+      first_handler.handle(checkable)
+      #    rescue StandardError => e
+      #      checkable.messages << "false::#{e}: #{opts}."
+      #      false
     end
 
     private
 
-    # #TODO change key to
-    # stop_process_on: [:failure|:success]
-
-    def _stop_process(checker_conf, res)
-      (res && checker_conf[:stop_process_if_success]) ||
-        (res == false && checker_conf[:stop_process_if_failure])
+    def _handlers(handler_confs)
+      handlers = _make_handlers(handler_confs)
+      handlers.each do |handler_name, handler|
+        next_handler_name = handler_confs[handler_name][:next_handler]
+        handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]
+      end
     end
 
-    def _checker_to_check_value(checker_conf)
-      k = "Checkability::#{checker_conf[:name].to_s.camelize}".constantize
-      k.new(checker_conf).check_value(checkable)
-    rescue NameError => e
-      checkable.messages << "false::#{e}: #{checker_conf[:name]}."
-      false
+    def _make_handlers(handler_confs)
+      handler_confs.transform_values do |handler_conf|
+        _make_handler(handler_conf)
+      end
+    end
+
+    def _make_handler(conf)
+      k = Checkability.const_get conf[:name].to_s.camelize
+      k.new(conf)
     end
   end
 end

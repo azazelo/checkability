@@ -1,32 +1,31 @@
 # frozen_string_literal: true
 
+require_relative 'abstract_checker'
 module Checkability
   # Checks if postcode exists in Storage
   #
-  class StorageChecker
-    attr_reader :storage_class
+  class StorageChecker < AbstractChecker
+    attr_reader :storage_class, :attr_name
 
-    def initialize(conf = {})
+    def post_initialize(conf = {})
       @storage_class = conf[:storage_class]
+      @attr_name = conf[:attr_name] || :value
     end
 
-    def check_value(checkable)
-      value = checkable.value.upcase
-      result = _present_in_storage(value)
-      checkable.messages << (
-        result ? _message('Found', result) : _message('Not found', result))
-      result
+    private
+
+    def _result(checkable)
+      value = _normalize_value(checkable.send(attr_name))
+      storage_class.where(attr_name => value).present?
     end
 
-    def _present_in_storage(value)
-      storage_class.where(value: value)
-                   .or(storage_class.where(value: value.strip))
-                   .or(storage_class.where(value: value.delete(' ')))
-                   .present?
+    def message(str, res)
+      str = "Allowed #{storage_class}s list: #{str}"
+      super(str, res)
     end
 
-    def _message(str, res)
-      "#{res}::Allowed #{storage_class}s list: #{str}."
+    def _normalize_value(value)
+      value.delete(' ').upcase
     end
   end
 end
