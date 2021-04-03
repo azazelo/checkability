@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+require_relative 'chain_of_resp/abstract_handler'
 module Checkability
   # Checks if postcode exists in Storage
   #
-  class StorageChecker
+  class StorageChecker < ChainOfResp::AbstractHandler
     attr_reader :storage_class
 
-    def initialize(conf = {})
+    def post_initialize(conf = {})
       @storage_class = conf[:storage_class]
     end
 

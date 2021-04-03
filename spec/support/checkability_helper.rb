@@ -40,39 +40,47 @@ end
 
 def validator_conf
   { name: :validator,
+    next_handler: 'Storage',
+    stop_process_on_failure: true,
+
     format: {
       name: 'UK Postcodes',
       regex: /([a-z]{1,2}[0-9]{1,2})([a-z]{1,2})?(\W)?([0-9]{1,2}[a-z]{2})?/i
-    },
-    stop_process_if_failure: true }
+    } }
 end
 
-def api_validate_conf
-  { name: :external_api_checker,
+def storage_conf
+  { name: :storage_checker,
+    next_handler: 'ApiValidator',
+    stop_process_on_success: true,
+
+    storage_class: Postcode }
+end
+
+def api_validator_conf
+  { next_handler: 'ApiFinder',
+    name: :external_api_checker,
+    stop_process_on_failure: true,
+
     path: 'http://api.postcodes.io/postcodes/',
     http_verb: :get,
     path_suffix: '/validate',
     check_method: proc { |result_hash|
       result_hash['result'] == true
     },
-    stop_process_if_failure: true,
     success_message: 'Postcode IS VALID.',
     failure_message: 'Postcode IS NOT VALID.' }
 end
 
-def api_inside_district_conf
+def api_finder_conf
   { name: :external_api_checker,
+    next_handler: nil,
+    stop_process_on_success: true,
+
     path: 'http://api.postcodes.io/postcodes/',
     check_method: proc { |result_hash|
-      %w[Southwark Lambeth].include?(result_hash['result']['admin_district'])
+      District.pluck(:name).include?(result_hash['result']['admin_district'])
     },
-    stop_process_if_success: true,
     success_message: 'Postcode IS INSIDE allowed areas.',
     failure_message: 'Postcode IS NOT INSIDE of allowed areas.' }
-end
-
-def storage_checker_conf
-  { name: :storage_checker,
-    storage_class: Postcode,
-    stop_process_if_success: true }
 end

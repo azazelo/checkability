@@ -14,7 +14,7 @@ RSpec.describe Checkability::ExternalApiChecker do
   it_behaves_like 'Checker', Checkability::ExternalApiChecker
 
   let(:external_api_checker) do
-    Checkability::ExternalApiChecker.new(api_validate_conf)
+    Checkability::ExternalApiChecker.new(api_validator_conf)
   end
   let(:check_true_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a REAL postcode' do
@@ -41,7 +41,7 @@ RSpec.describe Checkability::ExternalApiChecker do
   it_behaves_like 'Checker', Checkability::ExternalApiChecker
 
   let(:external_api_checker) do
-    Checkability::ExternalApiChecker.new(api_inside_district_conf)
+    Checkability::ExternalApiChecker.new(api_validator_conf)
   end
   let(:check_included_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a INCLUDED postcode' do

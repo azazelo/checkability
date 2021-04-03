@@ -15,7 +15,7 @@ RSpec.describe klass do
 
   let!(:postcode) { Postcode.create(value: 'SH241AA') }
   let(:storage_checker) do
-    klass.new(storage_checker_conf)
+    klass.new(storage_conf)
   end
   let(:check_existing_postcode) { Check.new(value: 'SH241AA') }
   context 'when input a postcode which is EXISTS in local storage' do

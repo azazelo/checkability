@@ -5,14 +5,17 @@ require 'net/http'
 require 'net/https'
 require 'json'
 
+# frozen_string_literal: true
+
+require_relative 'chain_of_resp/abstract_handler'
 module Checkability
   # Checks if postcode exists in external API
   #
-  class ExternalApiChecker
+  class ExternalApiChecker < ChainOfResp::AbstractHandler
     attr_reader :path, :path_suffix, :check_method, :connection, :http_verb,
                 :failure_message, :success_message
 
-    def initialize(conf = {})
+    def post_initialize(conf = {})
       @path = conf[:path]
       @http_verb = conf[:http_verb] || :get
       @path_suffix = conf[:path_suffix] || ''

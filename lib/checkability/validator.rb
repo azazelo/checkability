@@ -3,10 +3,10 @@
 module Checkability
   # Checks if postcode comply with regex
   #
-  class Validator
+  class Validator < ChainOfResp::AbstractHandler
     attr_reader :format
 
-    def initialize(conf = {})
+    def post_initialize(conf = {})
       @format = conf[:format]
     end
 
