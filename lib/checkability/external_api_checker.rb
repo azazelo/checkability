@@ -11,8 +11,7 @@ module Checkability
   # Checks if postcode exists in external API
   #
   class ExternalApiChecker < AbstractChecker
-    attr_reader :path, :path_suffix, :check_method, :connection, :http_verb,
-                :failure_message, :success_message
+    attr_reader :path, :path_suffix, :check_method, :connection, :http_verb
 
     def post_initialize(conf = {})
       @path = conf[:path]
