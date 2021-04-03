@@ -21,7 +21,6 @@ module Checkability
     # validator.handle(request)
     #
     def check(opts = {})
-      require 'pry'; binding.pry
       first_handler_name = opts[:first_handler]
       _handlers(opts)[first_handler_name].handle(checkable)
     rescue StandardError => e
