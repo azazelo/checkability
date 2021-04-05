@@ -17,7 +17,7 @@ class SomeModel
 end
 ```
 where `uk_postcode_checkers` is method which returns hash with configurations  
-https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers.rb  
+https://github.com/azazelo/postcode_checker/blob/master/app/models/concerns/u_k_postcode_checkers_conf.rb  
 then in your controller:  
 ```ruby
 class ChecksController < ApplicationController
@@ -30,7 +30,7 @@ class ChecksController < ApplicationController
     message, alert_class =
       if @check.valid?
         @check.perform_check
-        [@check.messages.join('<br/>'), _alert_class(@check.allowed)]
+        [@check.ch_messages.join('<br/>'), _alert_class(@check.ch_allowed)]
       else
         [@check.errors.full_messages.join('<br/>'), _alert_class(false)]
       end
