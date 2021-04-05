@@ -2,7 +2,7 @@
 
 module Checkability
   # @abstract
-  class Checker
+  class Handler
     # @abstract
     #
     # @param [Handler] handler
@@ -23,17 +23,26 @@ module Checkability
     #
     # @param [String] request
     #
-    # @return [Boolean, true|false]
-    def check_value(_request)
+    # @return Array [ [Boolean, true|false], String, message] ]
+    def result_and_message(_object)
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
 
     # @abstract
     #
-    # @param [String] request
+    # @param [Checkable object] request
     #
     # @return [Boolean, true|false]
-    def result_and_message(_object)
+    def result(_object)
+      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
+    end
+    
+    # @abstract
+    #
+    # @params [Boolean], [String]
+    #
+    # @return [String]
+    def message(res, str)
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
   end

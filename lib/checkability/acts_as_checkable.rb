@@ -17,19 +17,19 @@ module Checkability
                 "Hash expected, got #{options.class.name}"
         end
 
-        class_attribute :checkable_conf
+        class_attribute :ch_conf
 
-        self.checkable_conf = options
+        self.ch_conf = options
       end
     end
 
-    attr_accessor :allowed, :messages
+    attr_accessor :ch_allowed, :ch_messages
 
     def perform_check
-      self.allowed = nil
-      self.messages = []
-      self.allowed = Checkability::Checkable.new(self).check(checkable_conf)
-      messages << "#{allowed}::'#{_value}' is #{_allowness}. "
+      self.ch_allowed = nil
+      self.ch_messages = []
+      self.ch_allowed = Checkability::Checkable.new(self).check(ch_conf)
+      ch_messages << "#{ch_allowed}::'#{_value}' is #{_allowness}. "
     end
 
     private
@@ -39,13 +39,11 @@ module Checkability
     end
 
     def _attr_name
-      checkable_conf[:attr_name] || :value
+      ch_conf[:attr_name] || :value
     end
 
-    def _setup; end
-
     def _allowness
-      allowed ? 'ALLOWED' : 'NOT allowed'
+      ch_allowed ? 'ALLOWED' : 'NOT allowed'
     end
   end
 end

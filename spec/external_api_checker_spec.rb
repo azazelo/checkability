@@ -19,17 +19,18 @@ RSpec.describe Checkability::ExternalApiChecker do
   let(:check_true_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a REAL postcode' do
     it 'respond with success' do
-      check_true_postcode.messages = []
-      expect(external_api_checker.check_value(check_true_postcode)).to eq(true)
-      expect(check_true_postcode.messages).to include(/IS VALID/)
+      ##TODO avoid messages = []
+      check_true_postcode.ch_messages = []
+      external_api_checker.handle(check_true_postcode)
+      expect(check_true_postcode.ch_messages).to include(/IS VALID/)
     end
   end
   let(:check_fake_postcode) { Check.new(value: 'SH241AA') }
   context 'when input a FAKE postcode' do
     it 'respond with failure' do
-      check_fake_postcode.messages = []
-      expect(external_api_checker.check_value(check_fake_postcode)).to eq(false)
-      expect(check_fake_postcode.messages).to include(/IS NOT VALID/)
+      check_fake_postcode.ch_messages = []
+      external_api_checker.handle(check_fake_postcode)
+      expect(check_fake_postcode.ch_messages).to include(/IS NOT VALID/)
     end
   end
 end
@@ -49,19 +50,17 @@ RSpec.describe Checkability::ExternalApiChecker do
   let(:check_included_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a INCLUDED postcode' do
     it 'respond with success' do
-      check_included_postcode.messages = []
-      expect(api_finder.check_value(check_included_postcode))
-        .to be_truthy
-      expect(check_included_postcode.messages).to include(/IS INSIDE/)
+      check_included_postcode.ch_messages = []
+      api_finder.handle(check_included_postcode)
+      expect(check_included_postcode.ch_messages).to include(/IS INSIDE/)
     end
   end
   let(:check_excluded_postcode) { Check.new(value: 'RM30PD') }
   context 'when input a EXCLUDED postcode' do
     it 'respond with failure' do
-      check_excluded_postcode.messages = []
-      expect(api_finder.check_value(check_excluded_postcode))
-        .to eq(false)
-      expect(check_excluded_postcode.messages).to include(/IS NOT INSIDE/)
+      check_excluded_postcode.ch_messages = []
+      api_finder.handle(check_excluded_postcode)
+      expect(check_excluded_postcode.ch_messages).to include(/IS NOT INSIDE/)
     end
   end
 end

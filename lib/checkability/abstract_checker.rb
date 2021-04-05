@@ -6,8 +6,9 @@ module Checkability
   # @abstract
   class AbstractChecker < Checker
     # @return [Handler]
-    attr_reader :stop_process_on_failure, :stop_process_on_success
-    attr_accessor :success_message, :failure_message, :handler
+    attr_accessor :handler
+    attr_reader :stop_process_on_success, :stop_process_on_failure, 
+                :success_message, :failure_message
 
     def initialize(opts = {})
       @stop_process_on_failure = opts[:stop_process_on_failure] || false
@@ -17,6 +18,11 @@ module Checkability
 
       @next_handler = nil
       post_initialize(opts) # implemented in subclass
+    end
+    
+    # subclass should implement
+    def post_initialize(_opts)
+      nil
     end
 
     # @param [Handler] handler
@@ -33,33 +39,35 @@ module Checkability
     # @param [String] request
     #
     # @return [Boolean, nil]
-    def handle(request)
-      check = check_value(request) # imlemented in subclass
+    def handle(checkable)
+      res, mess = result_and_message(checkable)
+      checkable.ch_messages << mess
 
-      return true  if check && stop_process_on_success
+      return true  if res && stop_process_on_success
 
-      return false if !check && stop_process_on_failure
+      return false if !res && stop_process_on_failure
 
-      handler&.handle(request)
+      handler&.handle(checkable)
     end
 
-    def check_value(checkable)
-      result, message = result_and_message(checkable)
-      checkable.messages << message
-      result
-    end
-
-    def result_and_message(checkable)
-      result = _result(checkable)
-      str = result ? success_message : failure_message
-      [result, message(str, result)]
+    def result_and_message(checkable=nil)
+      return [false, 'No checkable object given'] unless checkable
+      
+      res = result(checkable)
+      
+      str = res ? success_message : failure_message
+      [res, message(res, str)]
     rescue StandardError => e
-      [false, message(e, false)]
+      [false, message(false, e)]
     end
 
-    def _result; end
+    # subclass should implement
+    def result(_checkable)
+      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
+    end
 
-    def message(str, res)
+    # subclass may override
+    def message(res, str)
       "#{res}::#{str}"
     end
   end

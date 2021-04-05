@@ -21,17 +21,17 @@ RSpec.describe Checkability::Validator, :aggregate_failure do
   let(:check_valid_postcode) { Check.new(value: 'SH241AA') }
   context 'when input' do
     specify 'valid postcode' do
-      check_valid_postcode.messages = []
-      expect(validator.check_value(check_valid_postcode)).to eq(true)
-      expect(check_valid_postcode.messages).to include(/COMPLY/)
+      check_valid_postcode.ch_messages = []
+      validator.handle(check_valid_postcode)
+      expect(check_valid_postcode.ch_messages).to include(/COMPLY/)
     end
   end
   let(:check_invalid_postcode) { Check.new(value: 'sss') }
   context 'when input' do
     specify 'invalid postcode' do
-      check_invalid_postcode.messages = []
-      expect(validator.check_value(check_invalid_postcode)).to eq(false)
-      expect(check_invalid_postcode.messages).to include(/NOT COMPLY/)
+      check_invalid_postcode.ch_messages = []
+      validator.handle(check_invalid_postcode)
+      expect(check_invalid_postcode.ch_messages).to include(/NOT COMPLY/)
     end
   end
 end

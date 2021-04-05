@@ -23,7 +23,7 @@ RSpec.describe Checkability::ActsAsCheckable do
 
     #    describe 'have attributes' do
     #
-    #      it '@messages' do
+    #      it '@ch_messages' do
     #        record = instance_double('Record')
     #        klass = class_double('Record')
     #        allow(klass).to receive(:acts_as_checkable)

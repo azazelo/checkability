@@ -12,17 +12,16 @@ module Checkability
       @attr_name = conf[:attr_name] || :value
     end
 
-    private
-
-    def _result(checkable)
+    def result(checkable)
       value = _normalize_value(checkable.send(attr_name))
       storage_class.where(attr_name => value).present?
     end
 
-    def message(str, res)
-      str = "Allowed #{storage_class}s list: #{str}"
-      super(str, res)
+    def message(res, str = '')
+      "#{res}::Allowed #{storage_class}s list: #{str}"
     end
+    
+    private
 
     def _normalize_value(value)
       value.delete(' ').upcase

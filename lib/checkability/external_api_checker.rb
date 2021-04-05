@@ -21,9 +21,7 @@ module Checkability
       @connection = Checkability::ExternalApiConnector.new(conf)
     end
 
-    private
-
-    def _result(checkable)
+    def result(checkable)
       resp = connection
              .connect
              .send(http_verb, "#{checkable.value.delete(' ')}#{path_suffix}")
@@ -32,10 +30,11 @@ module Checkability
       check_method.call(_parsed(resp))
     end
 
-    def message(str, res)
-      str = "#{path}: #{str}"
-      super(str, res)
+    def message(res, str)
+      "#{res}::#{path}: #{str}"
     end
+    
+    private
 
     def _parsed(resp)
       JSON.parse(resp.body)

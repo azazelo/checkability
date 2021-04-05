@@ -10,9 +10,7 @@ module Checkability
       @format = conf[:format]
     end
 
-    private
-
-    def _result(checkable)
+    def result(checkable)
       !(checkable.value.delete(' ') =~ format[:regex]).nil?
     end
   end

@@ -9,7 +9,7 @@ module Checkability
 
     def initialize(checkable)
       @checkable = checkable
-      @checkable.messages = []
+      @checkable.ch_messages = []
     end
 
     # As in result handlers should behave like this:
@@ -20,15 +20,14 @@ module Checkability
     #
     # validator.handle(request)
     #
-    def check(opts)
-      handler_confs = opts[:handler_confs]
-      first_handler_name = opts[:first_handler]
+    def check(handler_confs)
+      first_handler_name = handler_confs.keys.first
       first_handler = _handlers(handler_confs)[first_handler_name]
 
       first_handler.handle(checkable)
-      #    rescue StandardError => e
-      #      checkable.messages << "false::#{e}: #{opts}."
-      #      false
+    rescue StandardError => e
+      checkable.ch_messages << "false::#{e}: #{handler_confs}."
+      false
     end
 
     private
@@ -41,15 +40,13 @@ module Checkability
       end
     end
 
-    def _make_handlers(handler_confs)
-      handler_confs.transform_values do |handler_conf|
-        _make_handler(handler_conf)
-      end
+    def _make_handlers(confs)
+      confs.transform_values { |conf| _make_handler(conf) }
     end
 
     def _make_handler(conf)
-      k = Checkability.const_get conf[:name].to_s.camelize
-      k.new(conf)
+      Checkability.const_get(conf[:name].to_s.camelize)
+                  .new(conf)
     end
   end
 end
