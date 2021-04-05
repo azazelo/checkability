@@ -17,7 +17,7 @@ module Checkability
       storage_class.where(attr_name => value).present?
     end
 
-    def message(res, str=nil)
+    def message(res, str = nil)
       "#{res}::Allowed #{storage_class}s list: #{str}"
     end
 

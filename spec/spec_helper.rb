@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-#require 'webmock/rspec'
-#WebMock.disable_net_connect!(allow_localhost: true)
+# require 'webmock/rspec'
+# WebMock.disable_net_connect!(allow_localhost: true)
 require 'simplecov'
 SimpleCov.start
 
@@ -101,25 +101,24 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed`value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
-  
+
   config.before(:each) do
-#    stub_request(:get, /htt:\/\/postcodes.io\/postcodes/).
-#      with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
-#      to_return(status: 200, body: "{'result': true}", headers: {})
-    
-#    stub_request(:get, /http:\/\/api.postcodes.io\/postcodes\//).
-#         with(
-#           headers: {
-#       	  'Accept'=>'*/*',
-#       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-#       	  'Content-Type'=>'application/json',
-#       	  'User-Agent'=>'Faraday v1.3.0'
-#           }).
-#         to_return(status: 200, 
-#         headers: {},
-#         body:  
-#           "{\"status\":200,\"result\":{\"postcode\":\"SE1 7QD\",\"admin_district\":\"Southwark\",}"
-#       )
-  end  
-  
+    #    stub_request(:get, /htt:\/\/postcodes.io\/postcodes/).
+    #      with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+    #      to_return(status: 200, body: "{'result': true}", headers: {})
+
+    #    stub_request(:get, /http:\/\/api.postcodes.io\/postcodes\//).
+    #         with(
+    #           headers: {
+    #       	  'Accept'=>'*/*',
+    #       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+    #       	  'Content-Type'=>'application/json',
+    #       	  'User-Agent'=>'Faraday v1.3.0'
+    #           }).
+    #         to_return(status: 200,
+    #         headers: {},
+    #         body:
+    #           "{\"status\":200,\"result\":{\"postcode\":\"SE1 7QD\",\"admin_district\":\"Southwark\",}"
+    #       )
+  end
 end

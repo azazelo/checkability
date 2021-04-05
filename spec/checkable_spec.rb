@@ -12,11 +12,11 @@ RSpec.describe klass, :aggregate_failure do
 
   let!(:check_valid_postcode) { Check.create(value: 'SE17QD') }
   let!(:check_obj_valid) { klass.new(check_valid_postcode) }
-  
+
   context "when #check with @value = 'SE17QD'" do
     it 'valid by Postcode regex' do
-      check_obj_valid.check({'Validator' => validator_conf.merge(next_handler: nil)})
-      
+      check_obj_valid.check({ 'Validator' => validator_conf.merge(next_handler: nil) })
+
       expect(check_obj_valid.ch_messages).to include(/COMPLY/)
       expect(check_obj_valid.ch_allowed).to be(true)
     end

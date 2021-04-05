@@ -275,8 +275,6 @@
           1,
           null,
           null,
-          null,
-          1,
           1,
           1,
           null,
@@ -651,7 +649,6 @@
           2,
           1,
           1,
-          null,
           1,
           1,
           null,
@@ -749,6 +746,8 @@
       },
       "/Users/andrey/projects/checkability/spec/support/external_request_spec.rb": {
         "lines": [
+          null,
+          null,
           1,
           null,
           1,
@@ -804,6 +803,6 @@
         ]
       }
     },
-    "timestamp": 1617656556
+    "timestamp": 1617657586
   }
 }
