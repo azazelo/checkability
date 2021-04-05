@@ -40,13 +40,10 @@ end
 
 def uk_postcode_checkers_conf
   {
-    first_handler: 'Validator',
-    handler_confs: {
-      'Validator' => validator_conf,
-      'Storage' => storage_conf,
-      'ApiValidator' => api_validator_conf,
-      'ApiFinder' => api_finder_conf
-    }
+    'Validator' => validator_conf,
+    'Storage' => storage_conf,
+    'ApiValidator' => api_validator_conf,
+    'ApiFinder' => api_finder_conf
   }
 end
 

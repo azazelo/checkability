@@ -20,7 +20,7 @@ module Checkability
     def message(res, str = '')
       "#{res}::Allowed #{storage_class}s list: #{str}"
     end
-    
+
     private
 
     def _normalize_value(value)

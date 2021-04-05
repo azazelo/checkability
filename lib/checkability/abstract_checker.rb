@@ -7,7 +7,7 @@ module Checkability
   class AbstractChecker < Checker
     # @return [Handler]
     attr_accessor :handler
-    attr_reader :stop_process_on_success, :stop_process_on_failure, 
+    attr_reader :stop_process_on_success, :stop_process_on_failure,
                 :success_message, :failure_message
 
     def initialize(opts = {})
@@ -19,7 +19,7 @@ module Checkability
       @next_handler = nil
       post_initialize(opts) # implemented in subclass
     end
-    
+
     # subclass should implement
     def post_initialize(_opts)
       nil
@@ -50,11 +50,11 @@ module Checkability
       handler&.handle(checkable)
     end
 
-    def result_and_message(checkable=nil)
+    def result_and_message(checkable = nil)
       return [false, 'No checkable object given'] unless checkable
-      
+
       res = result(checkable)
-      
+
       str = res ? success_message : failure_message
       [res, message(res, str)]
     rescue StandardError => e

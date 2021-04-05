@@ -19,7 +19,7 @@ RSpec.describe Checkability::ExternalApiChecker do
   let(:check_true_postcode) { Check.new(value: 'SE17QD') }
   context 'when input a REAL postcode' do
     it 'respond with success' do
-      ##TODO avoid messages = []
+      # #TODO avoid messages = []
       check_true_postcode.ch_messages = []
       external_api_checker.handle(check_true_postcode)
       expect(check_true_postcode.ch_messages).to include(/IS VALID/)

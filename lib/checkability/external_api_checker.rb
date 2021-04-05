@@ -33,7 +33,7 @@ module Checkability
     def message(res, str)
       "#{res}::#{path}: #{str}"
     end
-    
+
     private
 
     def _parsed(resp)

@@ -2,7 +2,7 @@
 
 module Checkability
   # @abstract
-  class Handler
+  class Checker
     # @abstract
     #
     # @param [Handler] handler
@@ -36,13 +36,13 @@ module Checkability
     def result(_object)
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
-    
+
     # @abstract
     #
     # @params [Boolean], [String]
     #
     # @return [String]
-    def message(res, str)
+    def message(_res, _str)
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
   end
