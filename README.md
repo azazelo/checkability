@@ -12,8 +12,8 @@ How to use my plugin.
 inside of any rails model do
 ```ruby
 class SomeModel
-  acts_as_checkable strategy: proc { |a, b, c| a && (b || c) },
-                    checkers: uk_postcode_checkers
+  extend UKPostcodeCheckersConf
+  acts_as_checkable uk_postcode_checkers_conf
 end
 ```
 where `uk_postcode_checkers` is method which returns hash with configurations  
