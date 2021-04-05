@@ -3,7 +3,7 @@
 module Checkability
   # Checks if postcode comply with regex
   #
-  class Validator < AbstractChecker
+  class Validator < BaseChecker
     attr_reader :format
 
     def post_initialize(conf = {})

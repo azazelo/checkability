@@ -1,22 +1,26 @@
 # frozen_string_literal: true
 
+require 'forwardable'
+
 module Checkability
   # Implements check method to Iterate on chechers
   # Possible to implemet as Iterator in future
   #
   class Checkable
-    attr_reader :checkable
+    attr_accessor :check_obj
 
-    def initialize(checkable)
-      @checkable = checkable
-      @checkable.ch_messages = []
+    extend Forwardable
+    def_delegators :@check_obj, :ch_messages, :ch_allowed
+
+    def initialize(check_obj)
+      @check_obj = check_obj
     end
 
     # As in result handlers should behave like this:
-    # validator    .set_next(storage)
-    # storage      .set_next(api_validator)
-    # api_validator.set_next(api_finder)
-    # api_validator.set_next(nil)
+    # validator    .next_handler(storage)
+    # storage      .next_handler(api_validator)
+    # api_validator.next_handler(api_finder)
+    # api_validator.next_handler(nil)
     #
     # validator.handle(request)
     #
@@ -24,9 +28,9 @@ module Checkability
       first_handler_name = handler_confs.keys.first
       first_handler = _handlers(handler_confs)[first_handler_name]
 
-      first_handler.handle(checkable)
+      first_handler.handle(check_obj)
     rescue StandardError => e
-      checkable.ch_messages << "false::#{e}: #{handler_confs}."
+      check_obj.ch_messages << "false::#{e}: #{handler_confs}."
       false
     end
 
@@ -34,6 +38,7 @@ module Checkability
 
     def _handlers(handler_confs)
       handlers = _make_handlers(handler_confs)
+
       handlers.each do |handler_name, handler|
         next_handler_name = handler_confs[handler_name][:next_handler]
         handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]

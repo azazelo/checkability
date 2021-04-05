@@ -3,6 +3,16 @@
 module Checkability
   # @abstract
   class Checker
+    # hook method to initialize concreet attributes
+    # @abstract
+    #
+    # @param [Hash]
+    #
+    # @return new object
+    def post_initialize(_opts)
+      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
+    end
+
     # @abstract
     #
     # @param [Handler] handler

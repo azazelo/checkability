@@ -15,6 +15,7 @@ end
 
 group :test do
   gem 'simplecov'
+  gem 'webmock'
 end
 # To use a debugger
 # gem 'byebug', group: [:development, :test]

@@ -1,36 +1,42 @@
 # frozen_string_literal: true
 
-require 'faraday'
-require 'net/http'
-require 'net/https'
-require 'json'
-
-# frozen_string_literal: true
+require 'forwardable'
 
 module Checkability
   # Checks if postcode exists in external API
   #
-  class ExternalApiChecker < AbstractChecker
-    attr_reader :path, :path_suffix, :check_method, :connection, :http_verb
+  
+  class ExternalApiChecker < BaseChecker
+    attr_reader :path, :path_suffix, :check_method, :connector, :http_verb
+    attr_accessor :resp
+
+    extend Forwardable
+    def_delegators :@connector, :connection
 
     def post_initialize(conf = {})
       @path = conf[:path]
       @http_verb = conf[:http_verb] || :get
       @path_suffix = conf[:path_suffix] || ''
       @check_method = conf[:check_method]
-      @connection = Checkability::ExternalApiConnector.new(conf)
+      @connector = conf[:connector] || 
+        Checkability::ExternalApiConnector.new(conf[:path])
+      @resp = nil
     end
 
-    def result(checkable)
-      resp = connection
-             .connect
-             .send(http_verb, "#{checkable.value.delete(' ')}#{path_suffix}")
-      return false unless resp.status == 200
+    def result(check_obj)
+      return false unless resp(check_obj).status == 200
 
-      check_method.call(_parsed(resp))
+      check_method.call( _parsed( resp( check_obj ) ) )
+    end
+    
+    def resp(check_obj)
+      @resp ||= connection
+                .send( http_verb, 
+                       "#{check_obj.value.delete(' ')}#{path_suffix}" )
+               #.get('SE17QD')
     end
 
-    def message(res, str)
+    def message(res, str=nil)
       "#{res}::#{path}: #{str}"
     end
 
