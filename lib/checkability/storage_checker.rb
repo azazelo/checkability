@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'abstract_checker'
+require_relative 'base_checker'
 module Checkability
   # Checks if postcode exists in Storage
   #
-  class StorageChecker < AbstractChecker
+  class StorageChecker < BaseChecker
     attr_reader :storage_class, :attr_name
 
     def post_initialize(conf = {})
@@ -17,7 +17,7 @@ module Checkability
       storage_class.where(attr_name => value).present?
     end
 
-    def message(res, str = '')
+    def message(res, str=nil)
       "#{res}::Allowed #{storage_class}s list: #{str}"
     end
 
