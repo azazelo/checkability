@@ -76,4 +76,5 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Future works
 
-- [ ] Use ChainOfResponsibility pattern to simplify call of checkers
+- [X] Use ChainOfResponsibility pattern to simplify call of checkers
+- [ ] Improve test with adding doubles
