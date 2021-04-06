@@ -42,8 +42,8 @@ module Checkability
     def _handlers
       handlers = _make_handlers
       handlers.each_value.with_index do |handler, i|
-        next_handler_name = handlers.keys[i + 1]
-        handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]
+        next_handler = handlers[handlers.keys[i + 1]]
+        handler.next_handler = next_handler if next_handler
       end
       handlers
     end
