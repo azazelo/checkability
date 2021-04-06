@@ -7,10 +7,10 @@ module Checkability
   # Possible to implemet as Iterator in future
   #
   class Checkable
-    attr_accessor :check_obj
+    attr_accessor :check_obj, :handler_confs
 
     extend Forwardable
-    def_delegators :@check_obj, :ch_messages, :ch_allowed
+    def_delegators :@check_obj, :ch_messages, :ch_allowed, :ch_conf
 
     def initialize(check_obj)
       @check_obj = check_obj
@@ -26,11 +26,8 @@ module Checkability
     #
     # ChainOfResponsibilty
     #
-    def check(handler_confs)
-      first_handler_name = handler_confs.keys.first
-      first_handler = _handlers(handler_confs)[first_handler_name]
-
-      first_handler.handle(check_obj)
+    def check
+      _first_handler.handle(check_obj)
     rescue StandardError => e
       check_obj.ch_messages << "false:::#{e}: #{handler_confs}."
       false
@@ -38,8 +35,12 @@ module Checkability
 
     private
 
-    def _handlers(handler_confs)
-      handlers = _make_handlers(handler_confs)
+    def _first_handler
+      _handlers[ch_conf.keys.first]
+    end
+
+    def _handlers
+      handlers = _make_handlers(ch_conf)
       handlers.each_value.with_index do |handler, i|
         next_handler_name = handlers.keys[i + 1]
         handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]

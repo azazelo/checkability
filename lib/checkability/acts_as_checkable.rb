@@ -23,7 +23,7 @@ module Checkability
       end
     end
 
-    attr_accessor :ch_allowed, :ch_messages
+    attr_accessor :ch_allowed, :ch_messages, :ch_conf
 
     def initialize(params)
       @ch_messages = []
@@ -32,7 +32,8 @@ module Checkability
     end
 
     def perform_check
-      Checkability::Checkable.new(self).check(ch_conf)
+      @ch_conf = ch_conf
+      Checkability::Checkable.new(self).check
       ch_messages << "#{ch_allowed}:::'#{_value}' is #{_allowness}. "
     end
 
