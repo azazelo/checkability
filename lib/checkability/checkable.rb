@@ -40,7 +40,7 @@ module Checkability
     end
 
     def _handlers
-      handlers = _make_handlers(ch_conf)
+      handlers = _make_handlers
       handlers.each_value.with_index do |handler, i|
         next_handler_name = handlers.keys[i + 1]
         handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]
@@ -48,8 +48,8 @@ module Checkability
       handlers
     end
 
-    def _make_handlers(confs)
-      confs.transform_values { |conf| _make_handler(conf) }
+    def _make_handlers
+      ch_conf.transform_values { |conf| _make_handler(conf) }
     end
 
     def _make_handler(conf)
