@@ -33,7 +33,7 @@ module Checkability
 
     def perform_check
       Checkability::Checkable.new(self).check(ch_conf)
-      ch_messages << "#{ch_allowed}::'#{_value}' is #{_allowness}. "
+      ch_messages << "#{ch_allowed}:::'#{_value}' is #{_allowness}. "
     end
 
     private

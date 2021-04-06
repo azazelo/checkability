@@ -32,7 +32,7 @@ module Checkability
 
       first_handler.handle(check_obj)
     rescue StandardError => e
-      check_obj.ch_messages << "false::#{e}: #{handler_confs}."
+      check_obj.ch_messages << "false:::#{e}: #{handler_confs}."
       false
     end
 

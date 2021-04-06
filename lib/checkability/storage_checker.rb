@@ -18,7 +18,7 @@ module Checkability
     end
 
     def message(res, str = nil)
-      "#{res}::Allowed #{storage_class}s list: #{str}"
+      "#{res}:::Allowed #{storage_class}s list: #{str}"
     end
 
     private

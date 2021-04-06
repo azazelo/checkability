@@ -53,8 +53,8 @@ module Checkability
 
       str = res ? success_message : failure_message
       [res, message(res, str)]
-      #    rescue StandardError => e
-      #      [false, message(false, e)]
+    rescue StandardError => e
+      [false, message(false, e)]
     end
 
     # subclass should implement
@@ -64,7 +64,7 @@ module Checkability
 
     # subclass may override
     def message(res, str)
-      "#{res}::#{str}"
+      "#{res}:::#{str}"
     end
 
     private

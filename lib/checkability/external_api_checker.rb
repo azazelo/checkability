@@ -35,7 +35,7 @@ module Checkability
     end
 
     def message(res, str = nil)
-      "#{res}::#{path}: #{str}"
+      "#{res}:::#{path}: #{str}"
     end
 
     private
