@@ -24,6 +24,8 @@ module Checkability
     #
     # validator.handle(request)
     #
+    # ChainOfResponsibilty
+    #
     def check(handler_confs)
       first_handler_name = handler_confs.keys.first
       first_handler = _handlers(handler_confs)[first_handler_name]
@@ -38,11 +40,11 @@ module Checkability
 
     def _handlers(handler_confs)
       handlers = _make_handlers(handler_confs)
-
-      handlers.each do |handler_name, handler|
-        next_handler_name = handler_confs[handler_name][:next_handler]
+      handlers.each_value.with_index do |handler, i|
+        next_handler_name = handlers.keys[i + 1]
         handler.next_handler(handlers[next_handler_name]) if handlers[next_handler_name]
       end
+      handlers
     end
 
     def _make_handlers(confs)
