@@ -27,7 +27,7 @@ module Checkability
     # @param [Handler] handler
     #
     # @return [Handler]
-    def next_handler(handler)
+    def next_handler=(handler)
       @next_handler = handler
 
       handler
