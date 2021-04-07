@@ -28,9 +28,9 @@ module Checkability
     #
     def check
       _first_handler.handle(check_obj)
-    rescue StandardError => e
-      check_obj.ch_messages << "false:::#{e}: #{handler_confs}."
-      false
+      #    rescue StandardError => e
+      #      check_obj.ch_messages << "false:::#{e}: #{handler_confs}."
+      #      false
     end
 
     private

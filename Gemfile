@@ -15,7 +15,8 @@ end
 
 group :test do
   gem 'simplecov'
-  gem 'webmock'
+  #  gem 'fakeweb', :git => 'https://github.com/chrisk/fakeweb.git'
+  gem 'fakeweb'
 end
 # To use a debugger
 # gem 'byebug', group: [:development, :test]

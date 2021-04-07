@@ -102,3 +102,11 @@ def api_finder_conf
       %w[Lambeth Southwark].include?(result_hash['result']['admin_district'])
     } }
 end
+
+def fw(value, conf, body)
+  FakeWeb.register_uri(
+    :get,
+    "#{conf[:path]}#{value}#{conf[:path_suffix]}",
+    body: body
+  )
+end

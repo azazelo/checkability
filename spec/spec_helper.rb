@@ -2,6 +2,18 @@
 
 # require 'webmock/rspec'
 # WebMock.disable_net_connect!(allow_localhost: true)
+
+require 'fakeweb'
+FakeWeb.allow_net_connect = false
+
+module FakeWeb
+  class StubSocket #:nodoc:
+    def close
+      @closed = true
+    end
+  end
+end
+
 require 'simplecov'
 SimpleCov.start
 
@@ -101,6 +113,10 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed`value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+
+  config.before(:each) do
+    FakeWeb.clean_registry
+  end
 
   config.before(:each) do
     #    stub_request(:get, /htt:\/\/postcodes.io\/postcodes/).
