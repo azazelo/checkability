@@ -6,6 +6,9 @@
 require 'fakeweb'
 FakeWeb.allow_net_connect = false
 
+# Bug in fakeweb gem
+# method close did not defined in published gem,
+# but defined in https://github.com/chrisk/fakeweb/blob/master/lib/fake_web/stub_socket.rb
 module FakeWeb
   class StubSocket #:nodoc:
     def close
