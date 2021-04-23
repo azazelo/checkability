@@ -10,10 +10,10 @@ module Checkability
                 :success_message, :failure_message
 
     def initialize(opts = {})
-      @stop_process_on_failure = opts.fetch(:stop_process_on_failure) || false
-      @stop_process_on_success = opts.fetch(:stop_process_on_success) || false
-      @success_message = opts.fetc(:success_message) || 'Success.'
-      @failure_message = opts.fetc(:failure_message) || 'Failed.'
+      @stop_process_on_failure = opts.fetch(:stop_process_on_failure) { false }
+      @stop_process_on_success = opts.fetch(:stop_process_on_success) { false }
+      @success_message = opts.fetch(:success_message) { 'Success.' }
+      @failure_message = opts.fetch(:failure_message) { 'Failed.' }
 
       @next_handler = nil
       post_initialize(opts) # implemented in subclass
